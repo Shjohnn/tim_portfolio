@@ -1,4 +1,7 @@
-<article class="card">
+<article class="card<%= e.image ? ' has-thumb' : '' %>">
+  <% if (e.image) { %>
+    <div class="card-thumb"><img src="<%= e.image %>" alt="" loading="lazy"></div>
+  <% } %>
   <% if (e.tag) { %><span class="tag"><%= e.tag %></span><% } %>
   <h3><a class="card-link" href="/<%= e.section %>/<%= e.slug %>"><%= e.title %></a></h3>
   <p><%= e.summary || '' %></p>
