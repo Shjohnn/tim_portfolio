@@ -1,0 +1,15 @@
+<%- include('head', { title: title + ' — Admin' }) %>
+<nav class="nav">
+  <div class="wrap navin">
+    <a class="logo" href="/admin">ADMIN<span>.</span></a>
+    <div class="anav">
+      <a href="/admin">Dashboard</a>
+      <a href="/admin/profile">Profile</a>
+      <% sections.forEach((s) => { %><a href="/admin/<%= s.key %>"><%= s.label %></a><% }) %>
+      <a href="/" target="_blank" rel="noopener">View site ↗</a>
+      <form method="post" action="/admin/logout"><button class="linkbtn" type="submit">Log out</button></form>
+    </div>
+  </div>
+</nav>
+<main class="admin">
+  <% if (locals.flash) { %><div class="flash <%= flash.type %>"><%= flash.text %></div><% } %>

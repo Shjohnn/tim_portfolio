@@ -1,0 +1,23 @@
+<%- include('../partials/admin-head', { title: 'Dashboard' }) %>
+<h1 class="admin-title">Dashboard</h1>
+
+<div class="stats">
+  <div class="card">
+    <span class="tag">Profile</span>
+    <h3><%= profile.fullName %></h3>
+    <p>Hero, about, portrait, footer.</p>
+    <div class="row"><a class="btn" href="/admin/profile">Edit profile</a></div>
+  </div>
+
+  <% sections.forEach((s) => { %>
+  <div class="card">
+    <span class="tag"><%= s.label %></span>
+    <h3><%= counts[s.key] || 0 %> <%= (counts[s.key] || 0) === 1 ? 'item' : 'items' %></h3>
+    <div class="row">
+      <a class="btn" href="/admin/<%= s.key %>">Manage</a>
+      <a class="btn primary" href="/admin/<%= s.key %>/new">Add new</a>
+    </div>
+  </div>
+  <% }) %>
+</div>
+<%- include('../partials/admin-foot') %>

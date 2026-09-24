@@ -1,0 +1,10 @@
+<%- include('partials/head', { title: title + ' — ' + profile.fullName }) %>
+<%- include('partials/nav') %>
+<main class="wrap">
+  <div class="detail">
+    <span class="tag"><%= code %></span>
+    <h1><%= message %></h1>
+    <div class="actions"><a class="btn primary" href="/">Back to home</a></div>
+  </div>
+</main>
+<%- include('partials/footer') %>

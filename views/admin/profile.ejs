@@ -1,0 +1,72 @@
+<%- include('../partials/admin-head', { title: 'Profile' }) %>
+<h1 class="admin-title">Profile</h1>
+
+<form class="panel" method="post" action="/admin/profile" enctype="multipart/form-data">
+
+  <div class="form-grid">
+    <div class="field">
+      <label for="fullName">Full name</label>
+      <input class="input" id="fullName" name="fullName" type="text" value="<%= profile.fullName %>" required>
+    </div>
+    <div class="field">
+      <label for="logoText">Logo text</label>
+      <input class="input" id="logoText" name="logoText" type="text" value="<%= profile.logoText %>" required>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="metaDescription">Site description (for search engines)</label>
+    <input class="input" id="metaDescription" name="metaDescription" type="text" value="<%= profile.metaDescription %>">
+  </div>
+
+  <div class="field">
+    <label for="heroEyebrow">Small line above the headline</label>
+    <input class="input" id="heroEyebrow" name="heroEyebrow" type="text" value="<%= profile.heroEyebrow %>">
+  </div>
+
+  <div class="form-grid">
+    <div class="field">
+      <label for="heroTitle">Headline (one line per row)</label>
+      <textarea class="input" id="heroTitle" name="heroTitle" rows="5"><%= profile.heroTitle %></textarea>
+    </div>
+    <div class="field">
+      <label for="heroAccentLine">Grey line number</label>
+      <input class="input" id="heroAccentLine" name="heroAccentLine" type="number" min="0" value="<%= profile.heroAccentLine %>">
+      <small>Which headline row is grey. 0 turns it off.</small>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="heroText">Intro text</label>
+    <textarea class="input" id="heroText" name="heroText" rows="3"><%= profile.heroText %></textarea>
+  </div>
+
+  <div class="field">
+    <label for="portrait">Portrait photo</label>
+    <% if (profile.portrait) { %>
+      <img class="thumb" src="<%= profile.portrait %>" alt="">
+      <label class="check"><input type="checkbox" name="removePortrait" value="1"> Remove current photo</label>
+    <% } %>
+    <input class="input" id="portrait" name="portrait" type="file" accept="image/*">
+  </div>
+
+  <div class="field">
+    <label for="aboutText">About text</label>
+    <textarea class="input" id="aboutText" name="aboutText" rows="3"><%= profile.aboutText %></textarea>
+  </div>
+
+  <div class="field">
+    <label for="quote">Quote</label>
+    <textarea class="input" id="quote" name="quote" rows="2"><%= profile.quote %></textarea>
+  </div>
+
+  <div class="field">
+    <label for="footerText">Footer text</label>
+    <input class="input" id="footerText" name="footerText" type="text" value="<%= profile.footerText %>">
+  </div>
+
+  <div class="row">
+    <button class="btn primary" type="submit">Save profile</button>
+  </div>
+</form>
+<%- include('../partials/admin-foot') %>

@@ -1,0 +1,101 @@
+<%
+  const isEdit = !!(entry && entry._id);
+  const v = (k, d = '') => (entry && entry[k] != null ? entry[k] : d);
+  const action = isEdit ? `/admin/${section.key}/${entry._id}/edit` : `/admin/${section.key}`;
+%>
+<%- include('../partials/admin-head', { title: (isEdit ? 'Edit ' : 'New ') + section.label }) %>
+<div class="admin-bar">
+  <h1 class="admin-title"><%= isEdit ? 'Edit item' : 'New item' %> · <%= section.label %></h1>
+  <a class="btn" href="/admin/<%= section.key %>">Back to list</a>
+</div>
+
+<form class="panel" method="post" action="<%= action %>" enctype="multipart/form-data">
+
+  <div class="field">
+    <label for="title">Title</label>
+    <input class="input" id="title" name="title" type="text" value="<%= v('title') %>" required>
+  </div>
+
+  <div class="form-grid">
+    <% if (section.tags.length) { %>
+    <div class="field">
+      <label for="tag">Tag</label>
+      <select class="input" id="tag" name="tag">
+        <% section.tags.forEach((t) => { %><option value="<%= t %>" <%= v('tag') === t ? 'selected' : '' %>><%= t %></option><% }) %>
+      </select>
+    </div>
+    <% } %>
+
+    <% if (section.hasYear) { %>
+    <div class="field">
+      <label for="year">Year</label>
+      <input class="input" id="year" name="year" type="text" value="<%= v('year') %>" placeholder="2026 or Earlier" required>
+    </div>
+    <% } %>
+
+    <% if (section.hasDate) { %>
+    <div class="field">
+      <label for="date">Date</label>
+      <input class="input" id="date" name="date" type="date" value="<%= entry && entry.date && !isNaN(new Date(entry.date)) ? new Date(entry.date).toISOString().slice(0, 10) : '' %>">
+    </div>
+    <% } %>
+
+    <div class="field">
+      <label for="order">Order</label>
+      <input class="input" id="order" name="order" type="number" value="<%= v('order', 0) %>">
+      <small>Smaller numbers appear first.</small>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="summary">Short summary</label>
+    <textarea class="input" id="summary" name="summary" rows="3" maxlength="300"><%= v('summary') %></textarea>
+    <small>Shown on the card. Up to 300 characters.</small>
+  </div>
+
+  <div class="field">
+    <label for="content">Full text</label>
+    <textarea class="input tall" id="content" name="content" rows="14"><%= v('content') %></textarea>
+    <small>Markdown works: ## Heading, **bold**, - list, [link](https://…)</small>
+  </div>
+
+  <div class="field">
+    <label for="image">Image (optional)</label>
+    <% if (v('image')) { %>
+      <img class="thumb" src="<%= v('image') %>" alt="">
+      <label class="check"><input type="checkbox" name="removeImage" value="1"> Remove current image</label>
+    <% } %>
+    <input class="input" id="image" name="image" type="file" accept="image/*">
+  </div>
+
+  <div class="field">
+    <label for="videoUrl">YouTube link (optional)</label>
+    <input class="input" id="videoUrl" name="videoUrl" type="url" value="<%= v('videoUrl') %>" placeholder="https://www.youtube.com/watch?v=…">
+  </div>
+
+  <% if (section.hasFile) { %>
+  <div class="field">
+    <label for="file">PDF document (optional)</label>
+    <% if (v('file')) { %>
+      <p class="current"><a href="<%= v('file') %>" target="_blank" rel="noopener">Current PDF</a></p>
+      <label class="check"><input type="checkbox" name="removeFile" value="1"> Remove current PDF</label>
+    <% } %>
+    <input class="input" id="file" name="file" type="file" accept="application/pdf">
+  </div>
+  <% } %>
+
+  <% if (section.hasLink) { %>
+  <div class="field">
+    <label for="link">External link (optional)</label>
+    <input class="input" id="link" name="link" type="url" value="<%= v('link') %>" placeholder="https://…">
+  </div>
+  <% } %>
+
+  <label class="check"><input type="checkbox" name="published" value="1" <%= (entry ? entry.published : true) ? 'checked' : '' %>> Published (visible on the site)</label>
+
+  <div class="row">
+    <button class="btn primary" type="submit"><%= isEdit ? 'Save changes' : 'Create item' %></button>
+    <a class="btn" href="/admin/<%= section.key %>">Cancel</a>
+  </div>
+</form>
+<%- include('../partials/admin-foot') %>

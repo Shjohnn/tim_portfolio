@@ -1,0 +1,43 @@
+<%- include('partials/head', { title: entry.title + ' — ' + profile.fullName, description: entry.summary }) %>
+<%- include('partials/nav') %>
+
+<main class="wrap">
+  <article class="detail">
+    <a class="back" href="/#<%= section.key %>">← <%= section.heading %></a>
+
+    <header>
+      <div class="meta">
+        <% if (entry.tag) { %><span class="tag"><%= entry.tag %></span><% } %>
+        <% if (entry.year) { %><time><%= entry.year %></time><% } %>
+        <% if (entry.date) { %><time><%= h.fmtDate(entry.date) %></time><% } %>
+      </div>
+      <h1><%= entry.title %></h1>
+      <% if (entry.summary) { %><p class="lead"><%= entry.summary %></p><% } %>
+    </header>
+
+    <%# Rasm bor bo'lsagina joy ajratiladi %>
+    <% if (entry.image) { %>
+      <figure class="cover"><img src="<%= entry.image %>" alt="<%= entry.title %>"></figure>
+    <% } %>
+
+    <%# Video bor bo'lsagina joy ajratiladi %>
+    <% const vid = h.youtubeId(entry.videoUrl); if (vid) { %>
+      <div class="video">
+        <iframe src="https://www.youtube-nocookie.com/embed/<%= vid %>" title="<%= entry.title %>"
+          loading="lazy" allowfullscreen
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>
+    <% } %>
+
+    <% if (entry.content) { %><div class="prose"><%- h.md(entry.content) %></div><% } %>
+
+    <% if (entry.file || entry.link) { %>
+      <div class="actions">
+        <% if (entry.file) { %><a class="btn primary" href="<%= entry.file %>" target="_blank" rel="noopener">Open PDF</a><% } %>
+        <% if (entry.link) { %><a class="btn" href="<%= entry.link %>" target="_blank" rel="noopener">Visit link ↗</a><% } %>
+      </div>
+    <% } %>
+  </article>
+</main>
+
+<%- include('partials/footer') %>

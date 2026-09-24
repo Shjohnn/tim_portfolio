@@ -1,0 +1,71 @@
+<%- include('partials/head', { title: profile.fullName + ' — Personal Portfolio', description: profile.metaDescription }) %>
+<%- include('partials/nav') %>
+
+<main id="top" class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="eyebrow"><%= profile.heroEyebrow %></div>
+      <h1><% const lines = profile.heroTitle.split(/\r?\n/);
+        lines.forEach((line, i) => { %><% if (i + 1 === profile.heroAccentLine) { %><em><%= line %></em><% } else { %><%= line %><% } %><% if (i < lines.length - 1) { %><br><% } %><% }) %></h1>
+      <p><%= profile.heroText %></p>
+      <div class="buttons">
+        <a class="btn primary" href="#analysis">Read my analysis</a>
+        <a class="btn" href="#academic">Explore my journey</a>
+      </div>
+    </div>
+
+    <div class="profile">
+      <% if (profile.portrait) { %>
+        <img class="photo" src="<%= profile.portrait %>" alt="<%= profile.fullName %>">
+      <% } else { %>
+        <div class="portrait">
+          <div class="portraitbox"><div><b>Your portrait goes here</b>Upload a photo in the admin panel.</div></div>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="sectionhead">
+      <h2>About</h2>
+      <p><%= profile.aboutText %></p>
+    </div>
+    <div class="quote">“<%= profile.quote %>”</div>
+  </section>
+
+  <!-- 5 TA BO'LIM: ma'lumot bazadan keladi -->
+  <% sections.forEach((s) => { const list = data[s.key] || []; %>
+  <section id="<%= s.key %>" class="section">
+    <div class="sectionhead">
+      <h2><%= s.heading %></h2>
+      <p><%= s.intro %></p>
+    </div>
+
+    <% if (!list.length) { %>
+      <p class="empty">Nothing here yet.</p>
+
+    <% } else if (s.key === 'achievements') { %>
+      <div class="timeline">
+        <% list.forEach((e) => { %>
+        <div class="event">
+          <div class="year"><%= e.year %></div>
+          <h3><a href="/<%= e.section %>/<%= e.slug %>"><%= e.title %></a></h3>
+          <p><%= e.summary || '' %></p>
+        </div>
+        <% }) %>
+      </div>
+
+    <% } else { %>
+      <div class="grid">
+        <% list.forEach((e) => { %><%- include('partials/card', { e }) %><% }) %>
+      </div>
+    <% } %>
+  </section>
+  <% }) %>
+
+</main>
+
+<%- include('partials/footer') %>

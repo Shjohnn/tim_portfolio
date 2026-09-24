@@ -1,0 +1,7 @@
+<article class="card">
+  <% if (e.tag) { %><span class="tag"><%= e.tag %></span><% } %>
+  <h3><a class="card-link" href="/<%= e.section %>/<%= e.slug %>"><%= e.title %></a></h3>
+  <p><%= e.summary || '' %></p>
+  <% if (e.date) { %><span class="card-date"><%= h.fmtDate(e.date) %></span><% } %>
+  <span class="card-more">Read more →</span>
+</article>

@@ -1,0 +1,18 @@
+<%- include('../partials/head', { title: 'Log in — Admin' }) %>
+<main class="login">
+  <form class="panel" method="post" action="/admin/login">
+    <h1>Admin log in</h1>
+    <% if (locals.error) { %><div class="flash error"><%= error %></div><% } %>
+    <div class="field">
+      <label for="username">Username</label>
+      <input class="input" id="username" name="username" type="text" autocomplete="username" required autofocus>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input class="input" id="password" name="password" type="password" autocomplete="current-password" required>
+    </div>
+    <button class="btn primary" type="submit">Log in</button>
+  </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<%- include('../partials/admin-head', { title: section.label }) %>
+<div class="admin-bar">
+  <h1 class="admin-title"><%= section.heading %></h1>
+  <a class="btn primary" href="/admin/<%= section.key %>/new">Add new</a>
+</div>
+
+<% if (!entries.length) { %>
+  <p class="empty">No items yet. Add the first one.</p>
+<% } else { %>
+<div class="table-wrap">
+  <table class="table">
+    <thead>
+      <tr><th>Title</th><th><%= section.hasYear ? 'Year' : 'Tag' %></th><th>Order</th><th>Status</th><th></th></tr>
+    </thead>
+    <tbody>
+      <% entries.forEach((e) => { %>
+      <tr>
+        <td><strong><%= e.title %></strong></td>
+        <td><%= section.hasYear ? e.year : (e.tag || '—') %></td>
+        <td><%= e.order %></td>
+        <td><span class="badge <%= e.published ? 'on' : '' %>"><%= e.published ? 'Published' : 'Draft' %></span></td>
+        <td class="actions-cell">
+          <a href="/<%= e.section %>/<%= e.slug %>" target="_blank" rel="noopener">View</a>
+          <a href="/admin/<%= section.key %>/<%= e._id %>/edit">Edit</a>
+          <form method="post" action="/admin/<%= section.key %>/<%= e._id %>/delete"
+                onsubmit="return confirm('Delete this item? This cannot be undone.')">
+            <button class="linkbtn danger" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<% } %>
+<%- include('../partials/admin-foot') %>
